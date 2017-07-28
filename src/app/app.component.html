@@ -1,5 +1,6 @@
 <!--The content below is only a placeholder and can be replaced.-->
 <div class="main">
+  <a *ngIf="userLoggedIn" href="#" (click)="logout()">Logout</a>
   <h1>
       <span *ngIf="selectedOrganisation">{{selectedOrganisation.name}}</span> Bicycle Counter
   </h1>
@@ -9,7 +10,9 @@
 
   <div class="organisation-list" *ngIf="userLoggedIn && !selectedOrganisation">
     <p>You are enrolled for multiple organisations, choose which one you want to count bicycles for:</p>
-    <input type="text" [(ngModel)]="filter" class="input input-search" placeholder="Filter by partner name">
+
+    <input type="text" [(ngModel)]="filter" class="input input-search full-width" placeholder="Filter by partner name">
+
     <ul class="organisations">
     <li *ngFor="let o of organisations">
       <span (click)="selectOrganisation(o)">{{ o.name }}</span>
@@ -22,7 +25,7 @@
     <app-counter (click)="onCounterClick()" [count]="counterEntry?.amount" [class.synced]="counterInSyncWithServer()"></app-counter>
 
     <div><button (click)="saveCounterEntry()" class="button">Save to Server</button></div>
-    <div *ngIf="saveError">Error while saving counter! {{savingError}}</div>
+    <div *ngIf="saveError">Error while saving counter! {{saveError}}</div>
     <div *ngIf="saveSuccess">Counter saved successfully!</div>
   </div>
 

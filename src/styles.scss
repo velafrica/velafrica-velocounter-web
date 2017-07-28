@@ -68,7 +68,12 @@ button.app-counter {
 
 input.input {
   display: block;
-  padding: 0.8em 0.3em;
+  padding: 0.8em;
   font-size: 0.9em;
-  width: 100%;
+  margin: 0.5em auto;
+
+  &.full-width {
+    width: 100%;
+  }
+
 }

@@ -26,7 +26,7 @@ export class AppComponent implements OnInit {
 
   get organisations(): Array<Organisation> {
     if (this.filter) {
-      return this._organisations.filter(val => val.name.indexOf(this.filter) !== -1);
+      return this._organisations.filter(val => val.name.toLowerCase().indexOf(this.filter.toLowerCase()) !== -1);
     } else {
       return this._organisations;
     }
@@ -75,6 +75,15 @@ export class AppComponent implements OnInit {
         }
       )
       .catch(err => console.log('error fetching organisations', err));
+  }
+
+  logout() {
+    this.token = null;
+    this.userLoggedIn = false;
+    this.organisations = null;
+    this.counterEntry = null;
+    this.selectedOrganisation = null;
+    this.filter = null;
   }
 
   onLoginSuccess(value: boolean) {
