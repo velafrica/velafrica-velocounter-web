@@ -18,11 +18,28 @@ export class AppComponent implements OnInit {
 
   public counterEntry: CounterEntry;
   public serverCounterEntry: CounterEntry;
-  public organisations: Array<Organisation>;
+  private _organisations: Array<Organisation>;
   public selectedOrganisation: Organisation;
   public showOrganisationList: boolean;
   private token: string;
   public userLoggedIn: boolean;
+
+  get organisations(): Array<Organisation> {
+    if (this.filter) {
+      return this._organisations.filter(val => val.name.indexOf(this.filter) !== -1);
+    } else {
+      return this._organisations;
+    }
+  }
+
+  set organisations(value: Array<Organisation>) {
+    this._organisations = value;
+  }
+
+  public filter: string;
+
+  public saveError: string;
+  public saveSuccess: boolean;
 
   constructor(
     private counterService: CounterService,
@@ -45,11 +62,11 @@ export class AppComponent implements OnInit {
     this.organisationService.getOrganisations(this.token)
       .then(
         response => {
-          this.organisations = response;
+          this._organisations = response;
           console.log(response);
 
-          if (this.organisations.length === 1) {
-            this.selectedOrganisation = this.organisations.pop();
+          if (this._organisations.length === 1) {
+            this.selectedOrganisation = this._organisations.pop();
             this.getTodaysCount();
           } else {
             this.showOrganisationList = true;
@@ -93,13 +110,19 @@ export class AppComponent implements OnInit {
   }
 
   saveCounterEntry() {
+    this.saveSuccess = false;
+    this.saveError = null;
     // TODO: should always make a get first to get updates from server side
     this.counterService.saveCounterEntry(this.counterEntry, this.token)
       .then(response => {
         console.log('Counter Entry saved', this.counterEntry, response);
+        this.saveSuccess = true;
         this.counterEntry = response;
       })
-      .catch(err => console.log('Error saving counter entry', this.counterEntry, err));
+      .catch(err => {
+        console.log('Error saving counter entry', this.counterEntry, err);
+        this.saveError = err;
+      });
   }
 
   counterInSyncWithServer(): boolean {

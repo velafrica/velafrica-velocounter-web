@@ -1,16 +1,16 @@
 <!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
+<div class="main">
   <h1>
-    Velafrica Bicycle Counter
+      <span *ngIf="selectedOrganisation">{{selectedOrganisation.name}}</span> Bicycle Counter
   </h1>
-  <h2 *ngIf="selectedOrganisation">{{selectedOrganisation.name}}</h2>
-  <h3 *ngIf="counterEntry">{{ counterEntry.date }}</h3>
+  <h3 *ngIf="counterEntry">{{ counterEntry.date | date: 'EEEE, dd.MM.y' }}</h3>
 
   <app-login (onLoginSuccess)="onLoginSuccess($event)" *ngIf="!userLoggedIn"></app-login>
 
   <div class="organisation-list" *ngIf="userLoggedIn && !selectedOrganisation">
-    You are enrolled for multiple organisations, choose which one you want to count bicycles for:
-    <ul>
+    <p>You are enrolled for multiple organisations, choose which one you want to count bicycles for:</p>
+    <input type="text" [(ngModel)]="filter" class="input input-search" placeholder="Filter by partner name">
+    <ul class="organisations">
     <li *ngFor="let o of organisations">
       <span (click)="selectOrganisation(o)">{{ o.name }}</span>
     </li>
@@ -21,7 +21,9 @@
   <div *ngIf="userLoggedIn && selectedOrganisation">
     <app-counter (click)="onCounterClick()" [count]="counterEntry?.amount" [class.synced]="counterInSyncWithServer()"></app-counter>
 
-    <div><button (click)="saveCounterEntry()" [disabled]="counterInSyncWithServer()">Push to Server</button></div>
+    <div><button (click)="saveCounterEntry()" class="button">Save to Server</button></div>
+    <div *ngIf="saveError">Error while saving counter! {{savingError}}</div>
+    <div *ngIf="saveSuccess">Counter saved successfully!</div>
   </div>
 
 </div>

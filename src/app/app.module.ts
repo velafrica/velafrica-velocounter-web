@@ -10,12 +10,14 @@ import { LoginService } from './core/auth/login.service';
 import { CounterService } from './core/counter/counter.service';
 import { SessionService } from './core/auth/session.service';
 import { OrganisationService } from './core/organisation/organisation.service';
+import { OrganisationPipe } from './organisation.pipe';
 
 @NgModule({
   declarations: [
     AppComponent,
     CounterComponent,
-    LoginComponent
+    LoginComponent,
+    OrganisationPipe
   ],
   imports: [
     BrowserModule,
