@@ -1,11 +1,28 @@
 <!--The content below is only a placeholder and can be replaced.-->
 <div style="text-align:center">
   <h1>
-    Welcome to {{title}}!
+    Velafrica Bicycle Counter
   </h1>
+  <h2 *ngIf="selectedOrganisation">{{selectedOrganisation.name}}</h2>
+  <h3 *ngIf="counterEntry">{{ counterEntry.date }}</h3>
 
   <app-login (onLoginSuccess)="onLoginSuccess($event)" *ngIf="!userLoggedIn"></app-login>
 
-  <app-counter *ngIf="userLoggedIn" (click)="onCounterClick()" [count]="dailyCount"></app-counter>
+  <div class="organisation-list" *ngIf="userLoggedIn && !selectedOrganisation">
+    You are enrolled for multiple organisations, choose which one you want to count bicycles for:
+    <ul>
+    <li *ngFor="let o of organisations">
+      <span (click)="selectOrganisation(o)">{{ o.name }}</span>
+    </li>
+  </ul>
+  </div>
+
+
+  <div *ngIf="userLoggedIn && selectedOrganisation">
+    <app-counter (click)="onCounterClick()" [count]="counterEntry?.amount" [class.synced]="counterInSyncWithServer()"></app-counter>
+
+    <div><button (click)="saveCounterEntry()" [disabled]="counterInSyncWithServer()">Push to Server</button></div>
+  </div>
+
 </div>
 
