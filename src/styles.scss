@@ -13,7 +13,8 @@ body {
 
 .main {
   margin: 0 auto;
-  width: 600px;
+  max-width: 600px;
+  width: 100%;
 }
 
 ul.organisations {
