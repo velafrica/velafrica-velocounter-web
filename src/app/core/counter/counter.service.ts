@@ -29,7 +29,10 @@ export class CounterService {
    * @returns {Promise<TResult|TResult2|CounterEntry>}
    */
   getTodaysCounterEntry(organisationId: number, token: string): Promise<CounterEntry> {
-    return this.http.get(this.apiUrl + '?search=' + organisationId, { headers: new HttpHeaders().set('Authorization', 'Basic ' + token), })
+    const dateToday = new Date();
+    const dateTodayString = dateToday.getFullYear() + '-' + (dateToday.getMonth() + 1) + '-' + dateToday.getDate();
+
+    return this.http.get(this.apiUrl + '?organisation=' + organisationId + '&date=' + dateTodayString, { headers: new HttpHeaders().set('Authorization', 'Basic ' + token), })
       .toPromise()
       .then(response => {
         const currentDate = new Date();
