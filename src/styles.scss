@@ -8,7 +8,7 @@
 
 body {
   text-align: center;
-  font-family: "Open Sans", "Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
 .main {
@@ -22,10 +22,17 @@ ul.organisations {
 
   li {
     list-style: none;
-    padding: 1em;
+    display: flex;
     border: 3px orange solid;
     margin: 0.5em 0;
+
+    span {
+      flex: 1 1 auto;
+      padding: 1em;
+    }
+
   }
+
   li:hover {
     background: orange;
     cursor: pointer;
